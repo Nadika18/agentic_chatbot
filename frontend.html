@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Visa Assistant</title>
+</head>
+<body>
+  <h1>Visa Chatbot</h1>
+  <div id="chat"></div>
+  <input type="text" id="userInput" placeholder="Ask something..." />
+  <button onclick="sendMessage()">Send</button>
+
+  <script>
+    const session_id = "user-123";  // generate per user
+    async function sendMessage() {
+      const msg = document.getElementById("userInput").value;
+      const res = await fetch("http://localhost:8000/chat", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ session_id, message: msg })
+      });
+      const data = await res.json();
+      document.getElementById("chat").innerHTML += `<p><b>You:</b> ${msg}</p>`;
+      document.getElementById("chat").innerHTML += `<p><b>Bot:</b> ${data.response}</p>`;
+    }
+  </script>
+</body>
+</html>
