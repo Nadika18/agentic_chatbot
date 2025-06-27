@@ -19,12 +19,17 @@ tools = [
     Tool(
         name="DuckDuckGo Search",
         func=ddg_search.run,
-        description="Useful to browse information from the Internet.",
+        description="""Useful to browse information from the Internet.
+       
+       """,
     )
 ]
 
 # ReAct prompt
-template = '''Answer the following questions as best you can. You have access to the following tools:
+template = '''You are a helpful assistant specialized in helping Specified Skilled Workers (SSW) who want to go to Japan on a working visa. Always include source links at the end of your response.
+Dont answer questions that are not related to above topic.
+
+Answer the following questions as best you can. You have access to the following tools:
 
 {tools}
 
@@ -86,7 +91,7 @@ user_input = st.chat_input("Ask me anything about visa application...")
 if user_input:
     st.chat_message("user").markdown(user_input)
     with st.spinner("Thinking..."):
-        response = agent_executor.invoke({"input": user_input})
+        response = agent_executor.invoke({"input": f"{user_input}"})
         final_answer = response["output"]
     st.chat_message("assistant").markdown(final_answer)
 
